@@ -7,6 +7,8 @@ var work 	= process.env.WORK_LAT_LONG
 var ga 		= process.env.GA_LAT_LONG
 var key 	= process.env.GMAPS_KEY
 
+if (!home || !work || !ga || !key) return console.log('NO ENVIRONMENT VARIABLES DETECTED. CREATE A .env FILE WITH THE FOLLOWING VARIABLES: WORK_LAT_LONG, GA_LAT_LONG, HOME_LAT_LONG, and GMAPS_KEY.')
+
 var intervalTimeMin = 10 // min
 
 getTrafficTime()
@@ -21,7 +23,11 @@ function getTrafficTime() {
 		.then((body) => {
 			var data = body
 						.map((res) => JSON.parse(res))
-						.map(res => res.routes[0].legs[0].duration.text)
+						// .map(res => res.routes[0].legs[0].duration.text) // ignore traffic
+						.map(res => { // with traffic
+							// eval(require('locus'))
+							return res.rows[0].elements[0].duration_in_traffic.text
+						})
 						.join(', ')
 			
 			writeToFile('traffic.csv', data)
@@ -32,7 +38,11 @@ function getTrafficTime() {
 }
 
 function generateUrl(origin, destination) {
-	return `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${key}`	
+	// ignore traffic
+	// return `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${key}`	
+
+	// with traffic
+	return `https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=${origin}&destinations=${destination}&departure_time=now&key=${key}`
 }
 
 function makeRequest(url, callback) {
