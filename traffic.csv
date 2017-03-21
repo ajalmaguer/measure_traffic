@@ -1,2 +1,4 @@
-Timestamp, Time (home to work), Time (work to GA), Time (work to home)
-Mon Mar 20 2017 11:36:57 GMT-0700 (PDT), 29 mins, 27 mins, 20 mins
+Day, Time, Time (home to work), Time (home to work), Time (work to home), Time (work to home), Time (work to ga), Time (work to ga)
+2, 13:52, 29 mins,29, 27 mins,27, 23 mins,23
+2, 13:53, 29 mins,29, 28 mins,28, 23 mins,23
+2, 13:55, 29 mins,29, 28 mins,28, 23 mins,23

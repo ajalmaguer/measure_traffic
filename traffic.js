@@ -26,7 +26,7 @@ function getTrafficTime() {
 						// .map(res => res.routes[0].legs[0].duration.text) // ignore traffic
 						.map(res => { // with traffic
 							// eval(require('locus'))
-							return res.rows[0].elements[0].duration_in_traffic.text
+							return res.rows[0].elements[0].duration_in_traffic.text + ',' + res.rows[0].elements[0].duration_in_traffic.text.split(' ')[0]
 						})
 						.join(', ')
 			
@@ -55,8 +55,10 @@ function makeRequest(url, callback) {
 
 function writeToFile(file, data) {
 	var timeStamp = new Date()
+	var day = timeStamp.getDay()
+	var time = timeStamp.getHours() + ':' + timeStamp.getMinutes()
 
-	fs.appendFile(file, `${timeStamp}, ${data}\n`, (err) => {
+	fs.appendFile(file, `${day}, ${time}, ${data}\n`, (err) => {
 		if (err) console.log('err = ', err)
 		console.log(`wrote ${data} to file at ${timeStamp}`);
 	})	
